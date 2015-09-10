@@ -103,11 +103,34 @@ describe("PGNViewer", function() {
     });
 
     it("can go backward", function() {
-
+      expect(pgnViewer.back()).toBe("Qa7");
     });
 
     it("cannot go forward", function() {
+      expect(pgnViewer.forward()).toBe(false);
+    });
+  });
 
+  describe("#goToStart", function() {
+    beforeEach(function() {
+      for (var i = 0; i < 5; i++) pgnViewer.forward();
+      pgnViewer.goToStart();
+    });
+
+    it("sets the move counter", function() {
+      expect(pgnViewer.moveNum).toBe(0);
+    });
+
+    it("goes to the start position", function() {
+      expect(pgnViewer.fen()).toBe("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    });
+
+    it("can go forward", function() {
+      expect(pgnViewer.forward()).toBe('e4');
+    });
+
+    it("cannot go back", function() {
+      expect(pgnViewer.back()).toBe(false);
     });
   });
 });

@@ -40,5 +40,13 @@ PGNViewer.prototype = {
       this.moveNum--;
       return move;
     }
+  },
+
+  goToEnd: function() {
+    while (this.forward()) {}
+  },
+
+  goToStart: function() {
+    while (this.back()) {}
   }
 };
