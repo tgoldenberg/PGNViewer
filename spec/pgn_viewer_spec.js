@@ -173,4 +173,33 @@ describe("PGNViewer", function() {
       expect(pgnViewer.forward()).toBe('Qxh8');
     });
   });
+
+  describe("#goToMove", function() {
+    it("goes to the correct position", function() {
+      pgnViewer.goToMove(72);
+      expect(pgnViewer.fen()).toBe("7r/1R3p1p/6p1/1p6/2q5/5PP1/1Q1r3P/1K1k1B2 w - - 6 37");
+      expect(pgnViewer.moveNum).toBe(72);
+
+      pgnViewer.goToMove(10);
+      expect(pgnViewer.fen()).toBe("rnbqk2r/pp2ppbp/2pp1np1/8/3PP3/2N1B3/PPPQ1PPP/R3KBNR w KQkq - 0 6");
+      expect(pgnViewer.moveNum).toBe(10);
+    });
+
+    it("can go forward and backward", function() {
+      pgnViewer.goToMove(10);
+      expect(pgnViewer.forward()).toBe('f3');
+      expect(pgnViewer.back()).toBe('f3');
+    });
+
+    it("validates input", function() {
+      pgnViewer.goToMove(10);
+      var fen = pgnViewer.fen();
+
+      expect(pgnViewer.goToMove(-1)).toBe(false);
+      expect(pgnViewer.fen()).toBe(fen);
+
+      expect(pgnViewer.goToMove(1000)).toBe(false);
+      expect(pgnViewer.fen()).toBe(fen);
+    });
+  });
 });

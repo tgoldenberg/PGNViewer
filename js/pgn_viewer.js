@@ -62,5 +62,18 @@ PGNViewer.prototype = {
     for(var i = 0; i < 10; i++)
       val = this.back();
     return val;
+  },
+
+  goToMove: function(num) {
+    if (num < 0 || num > this.history.length)
+      return false;
+
+    var val;
+    if (this.moveNum < num) {
+      while (this.moveNum !== num) val = this.forward();
+    } else {
+      while(this.moveNum !== num) val = this.back();
+    }
+    return val;
   }
 };
