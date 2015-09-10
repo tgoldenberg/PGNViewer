@@ -36,7 +36,7 @@ PGNViewer.prototype = {
     if (this.startOfGame()) {
       return false;
     } else {
-      var move = this.chess.undo();
+      var move = this.chess.undo().san;
       this.moveNum--;
       return move;
     }
