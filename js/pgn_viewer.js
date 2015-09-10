@@ -48,5 +48,19 @@ PGNViewer.prototype = {
 
   goToStart: function() {
     while (this.back()) {}
+  },
+
+  skipForward: function() {
+    var val;
+    for (var i = 0; i < 10; i++)
+      val = this.forward();
+    return val;
+  },
+
+  skipBack: function() {
+    var val;
+    for(var i = 0; i < 10; i++)
+      val = this.back();
+    return val;
   }
 };

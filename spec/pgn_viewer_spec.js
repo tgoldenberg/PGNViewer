@@ -133,4 +133,44 @@ describe("PGNViewer", function() {
       expect(pgnViewer.back()).toBe(false);
     });
   });
+
+  describe("#skipForward", function() {
+    beforeEach(function() {
+      pgnViewer.skipForward();
+    });
+
+    it("goes forward 5 full moves", function() {
+      expect(pgnViewer.moveNum).toBe(10);
+      expect(pgnViewer.fen()).toBe("rnbqk2r/pp2ppbp/2pp1np1/8/3PP3/2N1B3/PPPQ1PPP/R3KBNR w KQkq - 0 6");
+    });
+
+    it("can go forward and back", function() {
+      expect(pgnViewer.back()).toBe('c6');
+      expect(pgnViewer.forward()).toBe('c6');
+    });
+  });
+
+  describe("#skipBack", function() {
+    beforeEach(function() {
+      pgnViewer.goToEnd();
+      pgnViewer.skipBack();
+    });
+
+    it("goes backward 5 full moves", function() {
+      expect(pgnViewer.history.length - pgnViewer.moveNum).toBe(10);
+      expect(pgnViewer.fen()).toBe("7Q/3r1p1p/6p1/8/2p5/5PP1/7P/1K1k4 b - - 0 39");
+    });
+
+    it("complements #skipForward", function() {
+      var fen = pgnViewer.fen();
+      pgnViewer.skipBack();
+      pgnViewer.skipForward();
+      expect(pgnViewer.fen()).toBe(fen);
+    });
+
+    it("can go forward and back", function() {
+      expect(pgnViewer.back()).toBe('Qxh8');
+      expect(pgnViewer.forward()).toBe('Qxh8');
+    });
+  });
 });
