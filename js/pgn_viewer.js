@@ -51,17 +51,15 @@ PGNViewer.prototype = {
   },
 
   skipForward: function() {
-    var val;
-    for (var i = 0; i < 10; i++)
-      val = this.forward();
-    return val;
+    for (var i = 0; i < 9; i++)
+      this.forward();
+    return this.forward();
   },
 
   skipBack: function() {
-    var val;
-    for(var i = 0; i < 10; i++)
-      val = this.back();
-    return val;
+    for(var i = 0; i < 9; i++)
+      this.back();
+    return this.back();
   },
 
   goToMove: function(num) {
