@@ -1,0 +1,79 @@
+#game {
+  width: 600px;
+}
+
+#controls {
+  width: 400px;
+  height: 40px;
+  float: left;
+  clear: both;
+  text-align: center;
+}
+
+#board {
+  width: 400px;
+  float: left;
+}
+
+#sideboard {
+  width: 140px;
+  float: left;
+  position: relative;
+}
+
+#blackplayer, #whiteplayer {
+  width: 100%;
+}
+
+#blackplayer, #whiteplayer {
+  height: 60px;
+  text-align: center;
+}
+
+#whiteplayer {
+  position: absolute;
+  top: 336px;
+}
+
+.name {
+  font-size: 18px;
+  height: 20px;
+}
+
+.time {
+  border: 1px solid #000;
+  font-size: 32px;
+  height: 38px;
+}
+
+table#notation {
+  table-layout: fixed;
+  border-collapse: collapse;
+  margin: 5px 0;
+  overflow-y: scroll;
+}
+
+tr {
+  width: 138px;
+  height: 20px;
+  border: 1px solid #585858;
+  background-color:#e6e6e6;
+}
+
+tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+td {
+  text-align: center;
+  font-size: 18px;
+}
+
+td.number {
+  width: 20px;
+  border-right: 1px solid #a4a4a4;
+}
+
+td.move {
+  width: 60px;
+}

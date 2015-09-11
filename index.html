@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <link type="text/css" rel="stylesheet" href="chessboardjs/css/chessboard-0.3.0.min.css" />
+  <script src="chessboardjs/js/chessboard-0.3.0.min.js"></script>
+  <script src="chessjs/chess.min.js"></script>
+  <script src="jquery/jquery-2.1.4.min.js"></script>
+
+  <link type="text/css" rel="stylesheet" href="board.css" />
+  <script src="js/pgn_viewer.js"></script>
+</head>
+<body>
+  <div id="game">
+    <div id="controls">
+      <button class="back"    id="startOfGame"><<<</button>
+      <button class="back"    id="skipBack"><<</button>
+      <button class="back"    id="back"><</button>
+      <button class="forward" id="forward">></button>
+      <button class="forward" id="skipForward">>></button>
+      <button class="forward" id="endOfGame">>>></button>
+    </div>
+    <div id="board"></div>
+    <div id="sideboard">
+      <div id="blackplayer">
+        <div class="name">Black</div>
+        <div class="time">00:00</div>
+      </div>
+      <table id="notation"></table>
+      <div id="whiteplayer">
+        <div class="name">White</div>
+        <div class="time">00:00</div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    var p = new PGNViewer('1. e4 e5 2. d4 d5 3.Nf3');
+
+    $('#controls').on('click', 'button', function() {
+      var callback = $(this).prop('class').toString();
+      if (Object.getPrototypeOf(p).hasOwnProperty(callback)) {
+        p[callback]();
+        p.updateBoard();
+      }
+    });
+  </script>
+</body>
+</html>

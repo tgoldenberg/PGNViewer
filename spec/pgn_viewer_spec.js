@@ -202,4 +202,13 @@ describe("PGNViewer", function() {
       expect(pgnViewer.fen()).toBe(fen);
     });
   });
+
+  describe("#updateBoard", function() {
+    it("sets the position of the board", function() {
+      pgnViewer.skipForward();
+      expect(pgnViewer.fen()).not.toMatch(pgnViewer.board.fen());
+      pgnViewer.updateBoard();
+      expect(pgnViewer.fen()).toMatch(pgnViewer.board.fen());
+    });
+  });
 });
