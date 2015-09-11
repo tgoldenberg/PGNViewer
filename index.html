@@ -61,7 +61,7 @@
     var pgnViewer = new PGNViewer(pgn);
 
     $('#controls').on('click', 'button', function() {
-      var callback = $(this).prop('id').toString();
+      var callback = $(this).prop('id');
       if (PGNViewer.prototype.hasOwnProperty(callback)) {
         pgnViewer[callback]();
         pgnViewer.updateBoard();
