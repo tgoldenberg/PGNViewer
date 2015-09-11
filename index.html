@@ -12,12 +12,12 @@
 <body>
   <div id="game">
     <div id="controls">
-      <button class="back"    id="startOfGame"><<<</button>
+      <button class="back"    id="goToStart"><<<</button>
       <button class="back"    id="skipBack"><<</button>
       <button class="back"    id="back"><</button>
       <button class="forward" id="forward">></button>
       <button class="forward" id="skipForward">>></button>
-      <button class="forward" id="endOfGame">>>></button>
+      <button class="forward" id="goToEnd">>>></button>
     </div>
     <div id="board"></div>
     <div id="sideboard">
@@ -37,7 +37,7 @@
     var p = new PGNViewer('1. e4 e5 2. d4 d5 3.Nf3');
 
     $('#controls').on('click', 'button', function() {
-      var callback = $(this).prop('class').toString();
+      var callback = $(this).prop('id').toString();
       if (Object.getPrototypeOf(p).hasOwnProperty(callback)) {
         p[callback]();
         p.updateBoard();
