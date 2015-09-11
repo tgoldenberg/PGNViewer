@@ -1,15 +1,16 @@
 function PGNViewer(pgn) {
-  this.history = (function() {
-    var chess = new Chess();
-    chess.load_pgn(pgn);
-    return chess.history();
-  }());
+  var c = new Chess();
+  c.load_pgn(pgn);
+
+  this.history = c.history();
+  this.header = c.header();
   this.chess = new Chess();
   this.moveNum = 0;
   this.board = ChessBoard('board',
     {position: 'start', pieceTheme: 'chessboardjs/img/chesspieces/wikipedia/{piece}.png'});
 
   this.displayNotation();
+  this.setHeaderInfo();
 }
 
 PGNViewer.prototype = {
@@ -80,7 +81,7 @@ PGNViewer.prototype = {
   },
 
   displayNotation: function() {
-    var notation = $('#notation');
+    var notation = $('#notation').find('table');
     for (var i = 0, l = Math.floor(this.history.length / 2); i < l; i++) {
       var row = $('<tr>');
       $('<td>', {class: 'number', text: (i + 1).toString()}).appendTo(row);
@@ -95,6 +96,27 @@ PGNViewer.prototype = {
       $('<td>', {class: 'move'}).appendTo(row);
       notation.append(row);
     }
+  },
+
+  setHeaderInfo: function() {
+    var black = "";
+    if (this.header.hasOwnProperty('Black')) {
+      black += this.header.Black;
+    }
+    if (this.header.hasOwnProperty('BlackElo')) {
+      black += " (" + this.header.BlackElo + ")";
+    }
+
+    var white = "";
+    if (this.header.hasOwnProperty('White')) {
+      white += this.header.White;
+    }
+    if (this.header.hasOwnProperty('WhiteElo')) {
+      white += " (" + this.header.WhiteElo + ")";
+    }
+
+    $('#whiteplayer').find('.name').text(white || "White");
+    $('#blackplayer').find('.name').text(black || "Black");
   },
 
   updateBoard: function() {
