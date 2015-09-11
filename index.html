@@ -67,6 +67,14 @@
         pgnViewer.updateBoard();
       }
     });
+
+    $('#notation').on('click', 'td.move', function() {
+      var move = $(this).data('move');
+      if (move) {
+        pgnViewer.goToMove(move);
+        pgnViewer.updateBoard();
+      }
+    });
   })();
   </script>
 </body>

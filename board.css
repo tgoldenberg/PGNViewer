@@ -65,13 +65,13 @@ button.back {
 }
 
 #notation {
-  max-height: 276px;
+  max-height: 265px;
   overflow-y: scroll;
+  margin: 5px 0;
 }
 
 #notation table {
   border-collapse: collapse;
-  margin: 5px 0;
 }
 
 tr {
@@ -87,7 +87,7 @@ tr:nth-child(even) {
 
 td {
   text-align: center;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 td.number {
@@ -97,4 +97,9 @@ td.number {
 
 td.move {
   width: 70px;
+}
+
+td.move:hover {
+  background-color: #fafafa;
+  cursor: pointer;
 }

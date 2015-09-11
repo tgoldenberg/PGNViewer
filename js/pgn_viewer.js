@@ -85,14 +85,14 @@ PGNViewer.prototype = {
     for (var i = 0, l = Math.floor(this.history.length / 2); i < l; i++) {
       var row = $('<tr>');
       $('<td>', {class: 'number', text: (i + 1).toString()}).appendTo(row);
-      $('<td>', {class: 'move', text: this.history[i * 2]}).appendTo(row);
-      $('<td>', {class: 'move', text: this.history[i * 2 + 1]}).appendTo(row);
+      $('<td>', {class: 'move', text: this.history[i * 2], data: {move: i * 2 + 1}}).appendTo(row);
+      $('<td>', {class: 'move', text: this.history[i * 2 + 1], data: {move: i * 2 + 2}}).appendTo(row);
       notation.append(row);
     }
     if (this.history.length % 2 === 1) {
       row = $('<tr>');
       $('<td>', {class: 'number', text: ((this.history.length + 1)/ 2).toString()}).appendTo(row);
-      $('<td>', {class: 'move', text: this.history[this.history.length - 1]}).appendTo(row);
+      $('<td>', {class: 'move', text: this.history[this.history.length - 1], data: {move: this.history.length}}).appendTo(row);
       $('<td>', {class: 'move'}).appendTo(row);
       notation.append(row);
     }
