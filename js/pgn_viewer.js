@@ -6,8 +6,22 @@ function PGNViewer(pgn) {
   this.header = c.header();
   this.chess = new Chess();
   this.moveNum = 0;
+  this.deviatedAt = null;
+
+  var onDrop = function(source, target) {
+    var data = {from: source, to: target, promotion: 'q'};
+    return this.move(data);
+  }
+  var onSnapEnd = function() {
+    this.board.position(this.chess.fen());
+  }
   this.board = ChessBoard('board',
-    {position: 'start', pieceTheme: 'chessboardjs/img/chesspieces/wikipedia/{piece}.png'});
+    {position: 'start',
+     draggable: true,
+     onDrop: onDrop.bind(this),
+     onSnapEnd: onSnapEnd.bind(this),
+     pieceTheme: 'chessboardjs/img/chesspieces/wikipedia/{piece}.png'});
+
 
   this.displayNotation();
   this.setHeaderInfo();
@@ -27,7 +41,7 @@ PGNViewer.prototype = {
   },
 
   forward: function() {
-    if (this.endOfGame()) {
+    if (this.deviatedAt || this.endOfGame()) {
       return false;
     } else {
       var move = this.history[this.moveNum];
@@ -43,6 +57,8 @@ PGNViewer.prototype = {
     } else {
       var move = this.chess.undo().san;
       this.moveNum--;
+      if (this.deviatedAt && this.moveNum < this.deviatedAt)
+        this.deviatedAt = null;
       return move;
     }
   },
@@ -70,6 +86,8 @@ PGNViewer.prototype = {
   goToMove: function(num) {
     if (num < 0 || num > this.history.length)
       return false;
+
+    while(this.deviatedAt) { this.back(); }
 
     var val;
     if (this.moveNum < num) {
@@ -121,5 +139,17 @@ PGNViewer.prototype = {
 
   updateBoard: function() {
     this.board.position(this.fen());
+  },
+
+  move: function(data) {
+    var move;
+    if (move = this.chess.move(data)) {
+      this.moveNum++;
+      if (this.deviatedAt === null && move.san !== this.history[this.moveNum - 1])
+        this.deviatedAt = this.moveNum;
+      return move;
+    } else {
+      return 'snapback';
+    }
   }
 };

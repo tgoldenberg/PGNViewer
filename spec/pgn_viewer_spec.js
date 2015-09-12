@@ -211,4 +211,67 @@ describe("PGNViewer", function() {
       expect(pgnViewer.fen()).toMatch(pgnViewer.board.fen());
     });
   });
+
+  describe("#move", function() {
+    var moveData = {from: 'g2', to: 'g3', promotion: 'q'};
+
+    it("makes moves not in the history", function() {
+      pgnViewer.move(moveData);
+      expect(pgnViewer.fen()).toBe("rnbqkbnr/pppppppp/8/8/8/6P1/PPPPPP1P/RNBQKBNR b KQkq - 0 1");
+    });
+
+    it("does not allow you to go forward after deviation", function() {
+      pgnViewer.move(moveData);
+      expect(pgnViewer.forward()).toBeFalsy();
+      expect(pgnViewer.skipForward()).toBeFalsy();
+      expect(pgnViewer.goToEnd()).toBeFalsy();
+      expect(pgnViewer.fen()).toBe("rnbqkbnr/pppppppp/8/8/8/6P1/PPPPPP1P/RNBQKBNR b KQkq - 0 1");
+    });
+
+    it("allows you to go back", function() {
+      pgnViewer.move(moveData);
+      expect(pgnViewer.back()).toBeTruthy();
+      expect(pgnViewer.fen()).toBe("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    });
+
+    it("allows you to go forward after returning to the game line", function() {
+      pgnViewer.move(moveData);
+      expect(pgnViewer.forward()).toBeFalsy();
+      pgnViewer.back();
+      expect(pgnViewer.forward()).toBeTruthy();
+      expect(pgnViewer.fen()).toBe("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
+    });
+
+    it("won't allow you to go forward until getting back to main line", function() {
+      pgnViewer.move(moveData);
+      var moveData2 = {from: 'g7', to:'g6', promotion: 'q'};
+      expect(pgnViewer.move(moveData2)).toBeTruthy();
+      expect(pgnViewer.forward()).toBeFalsy();
+      pgnViewer.back();
+      expect(pgnViewer.forward()).toBeFalsy();
+      pgnViewer.back();
+
+      expect(pgnViewer.fen()).toBe("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+      expect(pgnViewer.forward()).toBeTruthy();
+      expect(pgnViewer.fen()).toBe("rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1");
+    });
+
+    it("allows you to go forward if your move matches the history", function() {
+      pgnViewer.move({from: 'e2', to: 'e4', promotion: 'q'});
+      expect(pgnViewer.forward()).toBeTruthy();
+    });
+
+    it("doesn't allow illegal moves", function() {
+      var illegal = {from: 'e1', to: 'e8', promotion: 'q'};
+      pgnViewer.move(illegal);
+      expect(pgnViewer.fen()).toBe("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1");
+    });
+
+    it("returns to main line on goToMove", function() {
+      pgnViewer.move(moveData);
+      pgnViewer.goToMove(10);
+      expect(pgnViewer.fen()).toBe("rnbqk2r/pp2ppbp/2pp1np1/8/3PP3/2N1B3/PPPQ1PPP/R3KBNR w KQkq - 0 6");
+      expect(pgnViewer.forward()).toBeTruthy();
+    });
+  });
 });
